@@ -38,7 +38,7 @@ function! ale_linters#python#pylint#GetCommand(buffer) abort
     return l:cd_string
     \   . ale#Escape(l:executable) . l:exec_args
     \   . ' ' . ale#Var(a:buffer, 'python_pylint_options')
-    \   . ' --output-format text --msg-template="{path}:{line}:{column}: {msg_id} ({symbol}) {msg}" --reports n'
+    \   . ' --output-format text --msg-template="{path}:{line}:{column}:_{msg_id}_({symbol})_{msg}" --reports n'
     \   . ' %s'
 endfunction
 
@@ -46,7 +46,7 @@ function! ale_linters#python#pylint#Handle(buffer, lines) abort
     " Matches patterns like the following:
     "
     " test.py:4:4: W0101 (unreachable) Unreachable code
-    let l:pattern = '\v^[a-zA-Z]?:?[^:]+:(\d+):(\d+): ([[:alnum:]]+) \(([^(]*)\) (.*)$'
+    let l:pattern = '\v^[a-zA-Z]?:?[^:]+:(\d+):(\d+):_([[:alnum:]]+)_\(([^(]*)\)_(.*)$'
     let l:output = []
 
     for l:match in ale#util#GetMatches(a:lines, l:pattern)
